@@ -4,7 +4,7 @@ import React from "react";
 
 const Home: React.FC = () => {
   return (
-    <div className="container text-center">
+    <div className="flex justify-center items-center h-full">
       <h1 className="font-bold text-lg">Current Portfolio</h1>
     </div>
   );

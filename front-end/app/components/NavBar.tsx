@@ -15,7 +15,7 @@ const NavBar: React.FC = () => {
   ];
 
   return (
-    <nav className="flex flex-col mx-auto justify-center items-center w-full py-10 mt-4 font-raleway bg-white sticky top-0">
+    <nav className="flex-col justify-center items-center py-10 font-raleway bg-white sticky">
       <div className="uppercase mt-2 mx-auto">
         <div className="flex justify-center items-center">
           {navItems.map((item) => (
