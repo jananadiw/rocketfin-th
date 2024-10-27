@@ -2,6 +2,7 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import routes from "./routes";
 
 import "./database";
 
@@ -10,6 +11,7 @@ const app = express();
 const httpServer = http.createServer(app);
 
 app.use(cors());
+app.use(routes);
 
 app.get("/", (_, res) => {
   res.send("Health check OK");
