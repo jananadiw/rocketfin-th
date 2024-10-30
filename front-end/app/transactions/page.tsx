@@ -66,7 +66,6 @@ const Transactions: React.FC = () => {
           shares: shares,
         }),
       });
-      console.log("data", data);
       const result = await response.json();
 
       if (!response.ok) {
@@ -79,7 +78,9 @@ const Transactions: React.FC = () => {
       setShares(0); // Reset shares input after successful transaction
     } catch (err) {
       console.error(`Error ${type}ing shares:`, err);
-      setTransactionStatus(err.message || `Failed to ${type} shares`);
+      setTransactionStatus(
+        err instanceof Error ? err.message : `Failed to ${type} shares`,
+      );
     }
   };
 
