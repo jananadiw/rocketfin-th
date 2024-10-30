@@ -95,3 +95,32 @@ export const sellShares = async (req, res) => {
       .json({ error: "Failed to sell shares" });
   }
 };
+
+export const getTransactions = async (req, res) => {
+  const { symbol } = req.query;
+
+  try {
+    const query = symbol ? { symbol } : {};
+    const tranasctions = await db.transaction.find(query).sort({
+      date: -1,
+    });
+
+    // Get stock data for instrument name:
+    const stockData = symbol ? await fetchStockData(symbol) : null;
+
+    const formattedTransactions = tranasctions.map((transaction) => ({
+      instrument_name: stockData?.longName || transaction.symbol,
+      shared_traded: transaction.shares,
+      operation: transaction.transactionType,
+      value: transaction.shares * transaction.price,
+      date: transaction.date,
+    }));
+
+    res.status(StatusCodes.OK).json(formattedTransactions);
+  } catch (error) {
+    console.error("Error fetching transactions", error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Failed to fetch transactions" });
+  }
+};

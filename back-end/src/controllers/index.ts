@@ -1,2 +1,2 @@
 export { searchInstrument } from "./searchInstrument";
-export { buyShares, sellShares } from "./transactions";
+export { buyShares, sellShares, getTransactions } from "./transactions";
