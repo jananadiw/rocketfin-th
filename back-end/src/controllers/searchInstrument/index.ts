@@ -17,6 +17,7 @@ export const searchInstrument = async (req, res) => {
       });
     }
     const {
+      symbol,
       longName,
       bid,
       ask,
@@ -26,6 +27,7 @@ export const searchInstrument = async (req, res) => {
     } = stockData;
 
     res.status(StatusCodes.OK).json({
+      symbol: symbol,
       name: longName,
       bid,
       ask,

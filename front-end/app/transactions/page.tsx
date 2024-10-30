@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TickerSearch from "../components/TickerSearch";
 
 interface TickerData {
+  symbol: string;
   name: string;
   bid: number;
   ask: number;
@@ -61,11 +62,11 @@ const Transactions: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          symbol: data.name,
+          symbol: data.symbol,
           shares: shares,
         }),
       });
-
+      console.log("data", data);
       const result = await response.json();
 
       if (!response.ok) {
