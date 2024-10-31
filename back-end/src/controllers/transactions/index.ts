@@ -110,7 +110,7 @@ export const getTransactions = async (req, res) => {
 
     const formattedTransactions = tranasctions.map((transaction) => ({
       instrument_name: stockData?.longName || transaction.symbol,
-      shared_traded: transaction.shares,
+      shares_traded: transaction.shares,
       operation: transaction.transactionType,
       value: transaction.shares * transaction.price,
       date: transaction.date,

@@ -40,6 +40,10 @@ const Home: React.FC = () => {
       accessor: "symbol",
     },
     {
+      header: "Shares",
+      accessor: "totalShares",
+    },
+    {
       header: "Cost Basis",
       accessor: (position: Position) => `$${position.cost_basis.toFixed(2)}`,
     },

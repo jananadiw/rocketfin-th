@@ -1,5 +1,6 @@
 export type Position = {
   symbol: string;
+  totalShares: number;
   cost_basis: number;
   market_value: number;
   unrealized_return_rate: number;

@@ -20,6 +20,7 @@ export const getPortfolio = async (req, res) => {
 
         return {
           symbol: item.symbol,
+          totalShares: item.totalShares,
           cost_basis: Number(item.costBasis.toFixed(2)),
           market_value: Number(marketValue.toFixed(2)),
           unrealized_return_rate: Number(unrealizedReturnRate.toFixed(2)),
