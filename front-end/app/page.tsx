@@ -5,7 +5,7 @@ import { usePortfolio } from "../api/hooks/usePortfolio";
 import { useTransactions } from "../api/hooks/useTransactions";
 import LoadingComponent from "./components/atoms/Loading";
 import ErrorComponent from "./components/atoms/Error";
-import Table from "./components/Table";
+import Table, { Column } from "./components/Table";
 import { Position, Transaction } from "./types/";
 
 const Home: React.FC = () => {
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
   const positions: Position[] = portfolioData?.positions || [];
   const transactions: Transaction[] = (transactionsData || []).slice(0, 5);
 
-  const portfolioColumns = [
+  const portfolioColumns: Column<Position>[] = [
     {
       header: "Symbol",
       accessor: "symbol",
@@ -81,7 +81,7 @@ const Home: React.FC = () => {
     },
   ];
 
-  const transactionColumns = [
+  const transactionColumns: Column<Transaction>[] = [
     {
       header: "Instrument",
       accessor: "instrument_name",

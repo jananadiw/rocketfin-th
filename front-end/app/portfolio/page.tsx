@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { usePortfolio } from "../../api/hooks/usePortfolio";
-import Table from "../components/Table";
+import Table, { Column } from "../components/Table";
 import ErrorComponent from "../components/atoms/Error";
 import LoadingComponent from "../components/atoms/Loading";
 import { PortfolioData } from "../types";
@@ -17,7 +17,7 @@ const Portfolio: React.FC = () => {
 
   const positions: PortfolioData[] = portfolioData?.positions || [];
 
-  const columns = [
+  const columns: Column<PortfolioData>[] = [
     {
       header: "Symbol",
       accessor: "symbol",
