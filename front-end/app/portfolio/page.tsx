@@ -2,22 +2,10 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-
-// hooks
 import { usePortfolio } from "../../api/hooks/usePortfolio";
-
-// components
 import ErrorComponent from "../components/atoms/Error";
 import LoadingComponent from "../components/atoms/Loading";
-
-interface Position {
-  symbol: string;
-  cost_basis: number;
-  market_value: number;
-  unrealized_return_rate: number;
-  unrealized_profit_loss: number;
-  totalShares: number;
-}
+import { PortfolioData } from "../types/";
 
 const Portfolio: React.FC = () => {
   const router = useRouter();
@@ -26,7 +14,7 @@ const Portfolio: React.FC = () => {
   if (isLoading) return <LoadingComponent />;
   if (error) return <ErrorComponent message={error.message} />;
 
-  const positions: Position[] = portfolioData?.positions || [];
+  const positions: PortfolioData[] = portfolioData?.positions || [];
 
   const handlePositionClick = (symbol: string) => {
     router.push(`/portfolio/${symbol}`);

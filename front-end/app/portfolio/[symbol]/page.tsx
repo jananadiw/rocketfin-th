@@ -5,14 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTransactions } from "../../../api/hooks/useTransactions";
 import LoadingComponent from "../../components/atoms/Loading";
 import ErrorComponent from "../../components/atoms/Error";
-
-interface Transaction {
-  instrument_name: string;
-  shares_traded: number;
-  operation: "buy" | "sell";
-  value: number;
-  date: string;
-}
+import { Transaction } from "../../types/";
 
 const InstrumentDetail: React.FC = () => {
   const params = useParams();

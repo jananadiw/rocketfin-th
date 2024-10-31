@@ -5,22 +5,7 @@ import { usePortfolio } from "../api/hooks/usePortfolio";
 import { useTransactions } from "../api/hooks/useTransactions";
 import LoadingComponent from "./components/atoms/Loading";
 import ErrorComponent from "./components/atoms/Error";
-
-interface Position {
-  symbol: string;
-  cost_basis: number;
-  market_value: number;
-  unrealized_return_rate: number;
-  unrealized_profit_loss: number;
-}
-
-interface Transaction {
-  instrument_name: string;
-  shares_traded: number;
-  operation: string;
-  value: number;
-  date: string;
-}
+import { Position, Transaction } from "./types/";
 
 const Home: React.FC = () => {
   const {

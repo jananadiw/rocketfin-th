@@ -4,18 +4,7 @@ import React, { useState } from "react";
 import TickerSearch from "../components/TickerSearch";
 import { useTickerSearch } from "../../api/hooks/useTickerSearch";
 import { useTransactionMutation } from "../../api/hooks/useTransactionMutation";
-import LoadingComponent from "../components/atoms/Loading";
 import ErrorComponent from "../components/atoms/Error";
-
-interface TickerData {
-  symbol: string;
-  name: string;
-  bid: number;
-  ask: number;
-  currentPrice: number;
-  changeValue: number;
-  changePercent: number;
-}
 
 const Transactions: React.FC = () => {
   const [ticker, setTicker] = useState<string | null>(null);
