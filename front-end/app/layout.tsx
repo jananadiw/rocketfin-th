@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import NavBar from "./components/NavBar";
-import "../styles/globals.css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Investment Portfolio",
@@ -16,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen bg-gray-100">
-        <NavBar />
-        <main>{children}</main>
+        <Providers>
+          <NavBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
