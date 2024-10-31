@@ -5,6 +5,7 @@ import { usePortfolio } from "../api/hooks/usePortfolio";
 import { useTransactions } from "../api/hooks/useTransactions";
 import LoadingComponent from "./components/atoms/Loading";
 import ErrorComponent from "./components/atoms/Error";
+import Table from "./components/Table";
 import { Position, Transaction } from "./types/";
 
 const Home: React.FC = () => {
@@ -33,6 +34,82 @@ const Home: React.FC = () => {
   const positions: Position[] = portfolioData?.positions || [];
   const transactions: Transaction[] = (transactionsData || []).slice(0, 5);
 
+  const portfolioColumns = [
+    {
+      header: "Symbol",
+      accessor: "symbol",
+    },
+    {
+      header: "Cost Basis",
+      accessor: (position: Position) => `$${position.cost_basis.toFixed(2)}`,
+    },
+    {
+      header: "Market Value",
+      accessor: (position: Position) => `$${position.market_value.toFixed(2)}`,
+    },
+    {
+      header: "Return Rate",
+      accessor: (position: Position) => (
+        <span
+          className={
+            position.unrealized_return_rate >= 0
+              ? "text-green-500"
+              : "text-red-500"
+          }
+        >
+          {position.unrealized_return_rate.toFixed(2)}%
+        </span>
+      ),
+    },
+    {
+      header: "P/L",
+      accessor: (position: Position) => (
+        <span
+          className={
+            position.unrealized_profit_loss >= 0
+              ? "text-green-500"
+              : "text-red-500"
+          }
+        >
+          ${position.unrealized_profit_loss.toFixed(2)}
+        </span>
+      ),
+    },
+  ];
+
+  const transactionColumns = [
+    {
+      header: "Instrument",
+      accessor: "instrument_name",
+    },
+    {
+      header: "Shares",
+      accessor: (position: Transaction) => `${position.shares_traded}`,
+    },
+    {
+      header: "Operation",
+      accessor: (transaction: Transaction) => (
+        <span
+          className={
+            transaction.operation === "buy" ? "text-green-500" : "text-red-500"
+          }
+        >
+          {transaction.operation.toUpperCase()}
+        </span>
+      ),
+    },
+    {
+      header: "Value",
+      accessor: (transaction: Transaction) =>
+        `$${transaction.value.toFixed(2)}`,
+    },
+    {
+      header: "Date",
+      accessor: (transaction: Transaction) =>
+        new Date(transaction.date).toLocaleDateString(),
+    },
+  ];
+
   return (
     <div className="flex flex-col items-center h-full bg-gray-100 p-4">
       {/* Portfolio Section */}
@@ -40,66 +117,7 @@ const Home: React.FC = () => {
         <h1 className="font-bold text-xl text-center mb-6">
           Current Portfolio Status
         </h1>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Symbol
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Cost Basis
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Market Value
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Return Rate
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  P/L
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {positions.map((position, index) => (
-                <tr key={index}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {position.symbol}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ${position.cost_basis.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ${position.market_value.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={
-                        position.unrealized_return_rate >= 0
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }
-                    >
-                      {position.unrealized_return_rate.toFixed(2)}%
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={
-                        position.unrealized_profit_loss >= 0
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }
-                    >
-                      ${position.unrealized_profit_loss.toFixed(2)}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table columns={portfolioColumns} data={positions} />
       </div>
 
       {/* Recent Transactions Section */}
@@ -107,58 +125,7 @@ const Home: React.FC = () => {
         <h2 className="font-bold text-xl text-center mb-6">
           Recent Transactions
         </h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Instrument
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Shares
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Operation
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Value
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {transactions.map((transaction, index) => (
-                <tr key={index}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {transaction.instrument_name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {transaction.shares_traded}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={
-                        transaction.operation === "buy"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }
-                    >
-                      {transaction.operation.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ${transaction.value.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {new Date(transaction.date).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table columns={transactionColumns} data={transactions} />
       </div>
     </div>
   );

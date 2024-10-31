@@ -6,6 +6,7 @@ import { useTransactions } from "../../../api/hooks/useTransactions";
 import LoadingComponent from "../../components/atoms/Loading";
 import ErrorComponent from "../../components/atoms/Error";
 import { Transaction } from "../../types/";
+import Table from "../../components/Table";
 
 const InstrumentDetail: React.FC = () => {
   const params = useParams();
@@ -30,53 +31,39 @@ const InstrumentDetail: React.FC = () => {
           Transaction History: {params.symbol}
         </h1>
       </div>
-
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Type
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Shares
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Value
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {new Date(transaction.date).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 rounded text-xs font-medium ${
-                      transaction.operation === "buy"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {transaction.operation.toUpperCase()}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {transaction.shares_traded}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  ${transaction.value.toFixed(2)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table
+        columns={[
+          {
+            header: "Date",
+            accessor: (transaction: Transaction) =>
+              new Date(transaction.date).toLocaleDateString(),
+          },
+          {
+            header: "Type",
+            accessor: (transaction: Transaction) => (
+              <span
+                className={`px-2 py-1 rounded text-xs font-medium ${
+                  transaction.operation === "buy"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {transaction.operation.toUpperCase()}
+              </span>
+            ),
+          },
+          {
+            header: "Shares",
+            accessor: "shares_traded",
+          },
+          {
+            header: "Value",
+            accessor: (transaction: Transaction) =>
+              `$${transaction.value.toFixed(2)}`,
+          },
+        ]}
+        data={transactions}
+      />
     </div>
   );
 };
