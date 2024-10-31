@@ -11,7 +11,7 @@ export function useTransactionMutation(type: "buy" | "sell") {
       symbol: string;
       shares: number;
     }) => {
-      const response = await fetch(`http://localhost:8080/${type}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${type}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ symbol, shares }),

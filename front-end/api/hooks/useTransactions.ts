@@ -5,8 +5,8 @@ export function useTransactions(symbol?: string) {
     queryKey: ["transactions", symbol],
     queryFn: async () => {
       const url = symbol
-        ? `http://localhost:8080/transactions?symbol=${symbol}`
-        : "http://localhost:8080/transactions";
+        ? `${process.env.NEXT_PUBLIC_API_URL}/transactions?symbol=${symbol}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/transactions`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch transaction data");
       return response.json();
